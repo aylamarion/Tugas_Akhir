@@ -37,13 +37,12 @@ app.teardown_appcontext(lambda exc: db_session.close())
 user_datastore = SQLAlchemySessionUserDatastore(db_session, User, Role)
 security = Security(app, user_datastore)
 
+s3 = boto3.client('s3',
+aws_access_key_id= "AKIAQKSQKYAFC5YIVZFF", #os.getenv("AWS_ACCESS_KEY_ID"),
+aws_secret_access_key= "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", #os.getenv("AWS_SECRET_ACCESS_KEY"),
+region_name= "ap-southeast-1") #os.getenv("AWS_REGION"))
 
-#s3 = boto3.client('s3',
-#aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
-#aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
-#region_name=os.getenv("AWS_REGION"))
-
-#s3_bucket = os.getenv("AWS_BUCKET_NAME")
+s3_bucket = "video-result-heart-s3-bucket" #os.getenv("AWS_BUCKET_NAME")
 
 
 class HelloWorld(Resource):
@@ -350,14 +349,14 @@ class Preprocessing(Resource):
             res = processing.frames2video(res, unique_id)
            
             # save result on S3 bucket
-            # s3_path = (
-            #   user_directory
-            #  + patient_directory
-            # + f"{self.checked_at}/"
-            # + f"result_{unique_id}.mp4"
-            # )
-            # s3.upload_file(f"result_{unique_id}.mp4", s3_bucket, s3_path)
-            # video_link_s3 = f"https://{s3_bucket}.s3.amazonaws.com/{s3_path}"
+            s3_path = (
+              user_directory
+             + patient_directory
+            + f"{self.checked_at}/"
+            + f"result_{unique_id}.mp4"
+            )
+            s3.upload_file(f"result_{unique_id}.mp4", s3_bucket, s3_path) 
+            video_link_s3 = f"https://{s3_bucket}.s3.amazonaws.com/{s3_path}"
 
             os.remove(f"result_{unique_id}.mp4")
 
