@@ -349,16 +349,12 @@ class Preprocessing(Resource):
             res = processing.frames2video(res, unique_id)
            
             # save result on S3 bucket
-            s3_path = (
-              user_directory
-             + patient_directory
-            + f"{self.checked_at}/"
-            + f"result_{unique_id}.mp4"
-            )
-            s3.upload_file(f"result_{unique_id}.mp4", s3_bucket, s3_path) 
-            video_link_s3 = f"https://{s3_bucket}.s3.amazonaws.com/{s3_path}"
+            s3_path = user_directory + patient_directory + f'{self.checked_at}/' + f'result_{unique_id}.mp4'
+            s3.upload_file(f'result_{unique_id}.mp4', s3_bucket, s3_path) 
+            video_link_s3 = f'https://{s3_bucket}.s3.amazonaws.com/{s3_path}'
 
-            os.remove(f"result_{unique_id}.mp4")
+            os.remove(f'result_{unique_id}.mp4')
+
 
         inputData = HeartCheck(
             checkResult=result,
