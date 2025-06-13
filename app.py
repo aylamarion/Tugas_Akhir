@@ -368,7 +368,7 @@ class Preprocessing(Resource):
 
         inputData = HeartCheck(
             checkResult=result,
-            video_path="video_link_s3",
+            video_path=video_link_s3,
             checked_at=datetime.datetime.now(),
             patient=patientData,
         )
