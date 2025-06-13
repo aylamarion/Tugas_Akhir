@@ -99,11 +99,18 @@ class InputPatientData(Resource):
 
         dob_date = datetime.datetime.strptime(str(dobInput), "%Y-%m-%d")
         current_date = datetime.datetime.now()
-        age = (
-            current_date.year
-            - dob_date.year
-            - ((current_date.month, current_date.day) < (dob_date.month, dob_date.day))
-        )
+        if current_date.year - dob_date.year >= 1:
+            age = (
+                current_date.year
+                - dob_date.year
+                - ((current_date.month, current_date.day) < (dob_date.month, dob_date.day))
+            )
+        else:
+            age = (
+                current_date.month
+                - dob_date.month -
+                ((current_date.day) < (dob_date.day))
+            )
 
         inputData = PatientData(
             patient_name=nameInput,
