@@ -42,7 +42,7 @@ aws_access_key_id= os.getenv("AWS_ACCESS_KEY_ID"),
 aws_secret_access_key= os.getenv("AWS_SECRET_ACCESS_KEY"),
 region_name= os.getenv("AWS_REGION"))
 
-s3_bucket = os.getenv("AWS_BUCKET_NAME")
+s3_bucket = "s3-bucket-backend-server" # os.getenv("AWS_BUCKET_NAME")
 
 
 class HelloWorld(Resource):
@@ -344,18 +344,18 @@ class Preprocessing(Resource):
 
             result = processing.classification()
 
-            #permulaan program jantung bayi
-            unique_id = str(uuid.uuid1())[:8]
-            res = processing.frames2video(res, unique_id)
+        #permulaan program jantung bayi
+        unique_id = str(uuid.uuid1())[:8]
+        res = processing.frames2video(res, unique_id)
 
-            print(f"DEBUG: s3_bucket type = {type(s3_bucket)}, value = {s3_bucket}")
-            # save result on S3 bucket
-            s3_path = user_directory + patient_directory + f'{self.checked_at}/' + f'result_{unique_id}.mp4'
-            s3.upload_file(f'result_{unique_id}.mp4', s3_bucket, s3_path) 
-            video_link_s3 = f'https://{s3_bucket}.s3.amazonaws.com/{s3_path}'
-            # s3.upload_file('stuff.txt', s3_bucket,'annyong.txt')
+        print(f"DEBUG: s3_bucket type = {type(s3_bucket)}, value = {s3_bucket}")
+        # save result on S3 bucket
+        s3_path = user_directory + patient_directory + f'{self.checked_at}/' + f'result_{unique_id}.mp4'
+        s3.upload_file(f'result_{unique_id}.mp4', s3_bucket, s3_path) 
+        video_link_s3 = f'https://{s3_bucket}.s3.amazonaws.com/{s3_path}'
+        # s3.upload_file('stuff.txt', s3_bucket,'annyong.txt')
 
-            os.remove(f'result_{unique_id}.mp4')
+        os.remove(f'result_{unique_id}.mp4')
 
 
         inputData = HeartCheck(

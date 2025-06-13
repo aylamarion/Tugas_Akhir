@@ -677,7 +677,7 @@ def frames2video(images, uid):
         height, width, layers = img.shape
         size = (width,height)
         img_array.append(img)
-    out = cv2.VideoWriter(f'result_{uid}.mp4',cv2.VideoWriter_fourcc(*'mp4v'), 5, size)
+    out = cv2.VideoWriter(f'result_{uid}.mp4',cv2.VideoWriter_fourcc(*'mp4v'), 10, size)
    #kasih print
     print("Menyimpan hasil video ...")
     for i in range(len(img_array)):
