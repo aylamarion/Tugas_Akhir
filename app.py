@@ -244,6 +244,14 @@ class Preprocessing(Resource):
             result = processing.save_result_video_ayla(frames_with_features, y_pred_labels, unique_id)
 
             print(f"Hasil deteksi mayoritas: {result}")
+            print(f"DEBUG: s3_bucket type = {type(s3_bucket)}, value = {s3_bucket}")
+            # save result on S3 bucket
+            s3_path = user_directory + patient_directory + f'{self.checked_at}/' + f'result_{unique_id}.mp4'
+            s3.upload_file(f'result_{unique_id}.mp4', s3_bucket, s3_path) 
+            video_link_s3 = f'https://{s3_bucket}.s3.amazonaws.com/{s3_path}'
+            # s3.upload_file('stuff.txt', s3_bucket,'annyong.txt')
+
+            os.remove(f'result_{unique_id}.mp4')
             """self.frames = processing.video2frame_ayla(
                 video_path = video_link)
             print("frames" + str(len(self.frames)))
@@ -344,18 +352,18 @@ class Preprocessing(Resource):
 
             result = processing.classification()
 
-        #permulaan program jantung bayi
-        unique_id = str(uuid.uuid1())[:8]
-        res = processing.frames2video(res, unique_id)
+            #permulaan program jantung bayi
+            unique_id = str(uuid.uuid1())[:8]
+            res = processing.frames2video(res, unique_id)
 
-        print(f"DEBUG: s3_bucket type = {type(s3_bucket)}, value = {s3_bucket}")
-        # save result on S3 bucket
-        s3_path = user_directory + patient_directory + f'{self.checked_at}/' + f'result_{unique_id}.mp4'
-        s3.upload_file(f'result_{unique_id}.mp4', s3_bucket, s3_path) 
-        video_link_s3 = f'https://{s3_bucket}.s3.amazonaws.com/{s3_path}'
-        # s3.upload_file('stuff.txt', s3_bucket,'annyong.txt')
+            print(f"DEBUG: s3_bucket type = {type(s3_bucket)}, value = {s3_bucket}")
+            # save result on S3 bucket
+            s3_path = user_directory + patient_directory + f'{self.checked_at}/' + f'result_{unique_id}.mp4'
+            s3.upload_file(f'result_{unique_id}.mp4', s3_bucket, s3_path) 
+            video_link_s3 = f'https://{s3_bucket}.s3.amazonaws.com/{s3_path}'
+            # s3.upload_file('stuff.txt', s3_bucket,'annyong.txt')
 
-        os.remove(f'result_{unique_id}.mp4')
+            os.remove(f'result_{unique_id}.mp4')
 
 
         inputData = HeartCheck(
