@@ -105,12 +105,14 @@ class InputPatientData(Resource):
                 - dob_date.year
                 - ((current_date.month, current_date.day) < (dob_date.month, dob_date.day))
             )
+            print(f"{age} tahun")
         else:
             age = (
-                current_date.month
-                - dob_date.month -
-                ((current_date.day) < (dob_date.day))
-            )/100
+                current_date.year
+                - dob_date.year) * 12 + (current_date.month - dob_date.month)
+            if current_date.day < dob_date.day :
+                    age -= 1
+            print(f"{age} bulan")
 
         inputData = PatientData(
             patient_name=nameInput,
