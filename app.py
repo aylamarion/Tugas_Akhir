@@ -110,7 +110,7 @@ class InputPatientData(Resource):
                 current_date.month
                 - dob_date.month -
                 ((current_date.day) < (dob_date.day))
-            )
+            )/100
 
         inputData = PatientData(
             patient_name=nameInput,
