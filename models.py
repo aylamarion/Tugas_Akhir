@@ -58,7 +58,7 @@ class PatientData(Base):
     id = Column(Integer(), primary_key=True)
     user_id = Column("user_id", Integer(), ForeignKey("user.id"))
     patient_name = Column(String(128))
-    age = Column(Double())
+    age = Column(Integer())
     dob = Column(Date())
     gender = Column(Integer())
     heart_check = relationship("HeartCheck", backref="patient", lazy="dynamic")
